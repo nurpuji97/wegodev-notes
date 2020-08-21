@@ -12,13 +12,13 @@
           + Note Baru
         </button>
 
-        <listNotes :propNotes="notes" :propEditNote="editNote"/>
+        <listNotes />
       </div>
       <!-- list -->
     </div>
     <div class="kanan">
       <!-- form -->
-      <formNotes :propRemoveNote="removeNote" :propSaveNote="saveNote" :propUpdateNote="updateNote" :propDataForm="dataForm"/>
+      <formNotes />
     </div>
   </div>
 </template>
@@ -30,13 +30,7 @@ import formNotes from './components/formNotes.vue'
 export default {
   name: 'App',
   data: function(){
-        return {
-            dataForm: {},
-            notes: [
-                {id:1, title: 'Wegodev', description: 'ini isi wegodev'},
-                {id:2, title: 'Super User', description: 'ini isi super user'}
-            ]
-        }
+        return {}
     },
   components: {
     listNotes,
@@ -44,36 +38,10 @@ export default {
   },
   methods: {
      newNote(){
-          this.dataForm = {id:0, title: '', description: '', mode: 'save'}
-     },
-     editNote(id){
-          this.dataForm = this.notes.find(note => note.id === id);
-          this.dataForm.mode= 'update';
-     },
-     saveNote(title, description){
-          let newId = 0;
 
-          if(this.notes.length === 0){
-               newId = 1;
-          } else {
-               newId = this.notes[this.notes.length - 1].id + 1;
-          }
-          
-          let newNote = {id:newId, 'title':title, 'description':description}
+          let dataForm = {id:0, title: '', description: '', mode: 'save'}
 
-          this.notes.push(newNote);
-          this.editNote(newId);
-     },
-     updateNote(id, title, description){ 
-          let noteIndex = this.notes.findIndex(note => note.id === id);
-
-          this.notes[noteIndex].title = title;
-          this.notes[noteIndex].description = description;
-
-     },
-     removeNote(id){
-          let noteIndex = this.notes.findIndex(note => note.id === id);
-          this.notes.splice(noteIndex, 1);
+          this.$root.$emit('emitForm', dataForm);
      }
   }
 }
