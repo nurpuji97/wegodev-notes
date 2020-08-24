@@ -51,7 +51,20 @@ export default {
                 description: this.description
             }
                 data.id = this.id;
-                this.$root.$emit('emitUpdateNote', data);
+
+            let params = new URLSearchParams();
+            params.append('id', this.id);
+            params.append('title', this.title);
+            params.append('description', this.description);
+
+            axios.post('http://localhost/wegodev-notes/note/update', params).then(response => {
+            let data = {
+                id: response.data.id,
+                title: this.title,
+                description: this.description
+            }
+            this.$root.$emit('emitUpdateNote', data);
+            });
         },
         submitRemove(){
             let data = {id : this.id}
